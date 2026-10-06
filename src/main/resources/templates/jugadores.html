@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/plantilla :: head('Jugadores')}"></head>
+<body>
+<nav th:replace="~{fragments/plantilla :: encabezado('jugadores')}"></nav>
+
+<main class="container pb-5">
+    <div th:replace="~{fragments/plantilla :: alertas}"></div>
+
+    <div class="row g-4">
+        <!-- FORMULARIO -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white fw-semibold"
+                     th:text="${jugador.id == null} ? 'Nuevo registro' : 'Editar registro #' + ${jugador.id}">Nuevo registro</div>
+                <div class="card-body">
+                    <form th:action="@{/jugadores/guardar}" th:object="${jugador}" method="post" novalidate>
+                        <input type="hidden" th:field="*{id}">
+                        <div th:replace="~{fragments/plantilla :: campo('nombre', 'Nombre', 'text')}"></div>
+                        <div th:replace="~{fragments/plantilla :: campo('apellido', 'Apellido', 'text')}"></div>
+                        <div th:replace="~{fragments/plantilla :: campo('numero', 'Número de camiseta', 'number')}"></div>
+                        <div class="mb-3">
+                            <label class="form-label" for="posicion">Posición</label>
+                            <select th:field="*{posicion}" class="form-select"
+                                    th:classappend="${#fields.hasErrors('posicion')} ? 'is-invalid'">
+                                <option value="">-- Selecciona --</option>
+                                <option th:each="p : ${ {'Portero','Defensa','Mediocampista','Extremo','Delantero'} }"
+                                        th:value="${p}" th:text="${p}"></option>
+                            </select>
+                            <div class="invalid-feedback" th:errors="*{posicion}"></div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success"
+                                    th:text="*{id} == null ? 'Guardar' : 'Actualizar'">Guardar</button>
+                            <a th:href="@{/jugadores}" class="btn btn-outline-secondary">Limpiar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- LISTA -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white fw-semibold">
+                    Jugadores <span class="badge bg-success" th:text="${#lists.size(lista)}">0</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle mb-0">
+                        <thead class="table-success"><tr><th>ID</th><th>#</th><th>Nombre</th><th>Posición</th><th></th></tr></thead>
+                        <tbody>
+                        <tr th:if="${#lists.isEmpty(lista)}">
+                            <td colspan="10" class="text-center text-muted py-4">No hay registros</td>
+                        </tr>
+                        <tr th:each="x : ${lista}">
+                            <td th:text="${x.id}">1</td><td><span class="badge bg-dark" th:text="${x.numero}"></span></td><td th:text="${x.nombreCompleto}"></td><td th:text="${x.posicion}"></td>
+                            <td th:replace="~{fragments/plantilla :: acciones('jugadores', ${x.id})}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/plantilla :: pie}"></footer>
+<th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+</html>

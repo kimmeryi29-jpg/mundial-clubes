@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<!-- ========== HEAD comun ========== -->
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' | Mundial'">Mundial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+    <link th:href="@{/css/mundial.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ========== ENCABEZADO para moverse entre las paginas ========== -->
+<nav th:fragment="encabezado(activo)" class="navbar navbar-expand-lg navbar-dark barra mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/}">⚽ Mundial <span>de Clubes</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                aria-controls="menu" aria-expanded="false" aria-label="Menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}"
+                    th:classappend="${activo == 'inicio'} ? 'active fw-semibold'"><i class="bi bi-house"></i> Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/clubes}"
+                    th:classappend="${activo == 'clubes'} ? 'active fw-semibold'"><i class="bi bi-shield"></i> Clubes</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/entrenadores}"
+                    th:classappend="${activo == 'entrenadores'} ? 'active fw-semibold'"><i class="bi bi-person-badge"></i> Entrenadores</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/jugadores}"
+                    th:classappend="${activo == 'jugadores'} ? 'active fw-semibold'"><i class="bi bi-people"></i> Jugadores</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/asociaciones}"
+                    th:classappend="${activo == 'asociaciones'} ? 'active fw-semibold'"><i class="bi bi-bank"></i> Asociaciones</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/competiciones}"
+                    th:classappend="${activo == 'competiciones'} ? 'active fw-semibold'"><i class="bi bi-trophy"></i> Competiciones</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== MENSAJES (flash) ========== -->
+<div th:fragment="alertas">
+    <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle"></i> <span th:text="${mensaje}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+</div>
+
+<!-- ========== CAMPO de formulario reutilizable (usa el th:object del form) ========== -->
+<div th:fragment="campo(campo, etiqueta, tipo)" class="mb-3">
+    <label class="form-label" th:for="${campo}" th:text="${etiqueta}">Campo</label>
+    <input th:type="${tipo}" th:field="*{__${campo}__}" class="form-control"
+           th:classappend="${#fields.hasErrors('__${campo}__')} ? 'is-invalid'">
+    <div class="invalid-feedback" th:errors="*{__${campo}__}"></div>
+</div>
+
+<!-- ========== BOTONES editar / eliminar de cada fila ========== -->
+<td th:fragment="acciones(ruta, id)" class="text-end text-nowrap">
+    <a th:href="@{/{r}/editar/{id}(r=${ruta}, id=${id})}" class="btn btn-sm btn-warning" title="Editar">
+        <i class="bi bi-pencil"></i></a>
+    <a th:href="@{/{r}/eliminar/{id}(r=${ruta}, id=${id})}" class="btn btn-sm btn-danger" title="Eliminar"
+       onclick="return confirm('¿Seguro que deseas eliminar este registro?');">
+        <i class="bi bi-trash"></i></a>
+</td>
+
+<!-- ========== PIE DE PAGINA ========== -->
+<footer th:fragment="pie" class="pie mt-5 py-4">
+    <div class="container d-flex flex-wrap justify-content-between gap-2">
+        <span>Mundial de Clubes</span>
+        <span th:text="${#temporals.year(#temporals.createNow())}">2026</span>
+    </div>
+</footer>
+
+<!-- ========== SCRIPTS ========== -->
+<th:block th:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</th:block>
+
+</body>
+</html>

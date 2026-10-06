@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/plantilla :: head('Asociaciones')}"></head>
+<body>
+<nav th:replace="~{fragments/plantilla :: encabezado('asociaciones')}"></nav>
+
+<main class="container pb-5">
+    <div th:replace="~{fragments/plantilla :: alertas}"></div>
+
+    <div class="row g-4">
+        <!-- FORMULARIO -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white fw-semibold"
+                     th:text="${asociacion.id == null} ? 'Nuevo registro' : 'Editar registro #' + ${asociacion.id}">Nuevo registro</div>
+                <div class="card-body">
+                    <form th:action="@{/asociaciones/guardar}" th:object="${asociacion}" method="post" novalidate>
+                        <input type="hidden" th:field="*{id}">
+                        <div th:replace="~{fragments/plantilla :: campo('nombre', 'Nombre', 'text')}"></div>
+                        <div th:replace="~{fragments/plantilla :: campo('pais', 'País', 'text')}"></div>
+                        <div th:replace="~{fragments/plantilla :: campo('presidente', 'Presidente', 'text')}"></div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success"
+                                    th:text="*{id} == null ? 'Guardar' : 'Actualizar'">Guardar</button>
+                            <a th:href="@{/asociaciones}" class="btn btn-outline-secondary">Limpiar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- LISTA -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white fw-semibold">
+                    Asociaciones <span class="badge bg-success" th:text="${#lists.size(lista)}">0</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle mb-0">
+                        <thead class="table-success"><tr><th>ID</th><th>Nombre</th><th>País</th><th>Presidente</th><th></th></tr></thead>
+                        <tbody>
+                        <tr th:if="${#lists.isEmpty(lista)}">
+                            <td colspan="10" class="text-center text-muted py-4">No hay registros</td>
+                        </tr>
+                        <tr th:each="x : ${lista}">
+                            <td th:text="${x.id}">1</td><td th:text="${x.nombre}"></td><td th:text="${x.pais}"></td><td th:text="${x.presidente}"></td>
+                            <td th:replace="~{fragments/plantilla :: acciones('asociaciones', ${x.id})}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/plantilla :: pie}"></footer>
+<th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+</html>

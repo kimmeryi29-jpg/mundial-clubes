@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/plantilla :: head('Inicio')}"></head>
+<body>
+<nav th:replace="~{fragments/plantilla :: encabezado('inicio')}"></nav>
+
+<main class="container pb-4">
+    <section class="cancha">
+        <div class="lineas" aria-hidden="true"></div>
+        <h1>Mundial de Clubes</h1>
+        <p>Clubes, entrenadores, plantillas y competiciones en un solo lugar.</p>
+        <a th:href="@{/clubes}" class="btn btn-oro">Ver clubes</a>
+    </section>
+
+    <nav class="marcador" aria-label="Totales">
+        <a th:href="@{/clubes}"><span class="marcador-cifra" th:text="${totalClubes}">0</span><small>Clubes</small></a>
+        <a th:href="@{/entrenadores}"><span class="marcador-cifra" th:text="${totalEntrenadores}">0</span><small>Entrenadores</small></a>
+        <a th:href="@{/jugadores}"><span class="marcador-cifra" th:text="${totalJugadores}">0</span><small>Jugadores</small></a>
+        <a th:href="@{/asociaciones}"><span class="marcador-cifra" th:text="${totalAsociaciones}">0</span><small>Asociaciones</small></a>
+        <a th:href="@{/competiciones}"><span class="marcador-cifra" th:text="${totalCompeticiones}">0</span><small>Competiciones</small></a>
+    </nav>
+</main>
+<footer th:replace="~{fragments/plantilla :: pie}"></footer>
+<th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+</html>

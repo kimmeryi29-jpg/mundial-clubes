@@ -1,0 +1,99 @@
+:root {
+    --campo: #0E3B2E;
+    --linea: #1F6B4F;
+    --suave: #E8F1EC;
+    --tiza: #F7F8F5;
+    --oro: #E3B23C;
+    --tinta: #16211C;
+    --gris: #66746D;
+    --borde: #DCE3DF;
+    --bs-body-font-family: "Barlow", system-ui, sans-serif;
+    --bs-body-color: var(--tinta);
+    --bs-link-color-rgb: 31, 107, 79;
+}
+body { background: var(--tiza); font-size: 1.02rem; }
+h1, h2, h3, h4, h5, .navbar-brand, .titulo-panel, .marcador-cifra {
+    font-family: "Barlow Condensed", sans-serif; letter-spacing: .01em;
+}
+a { color: var(--linea); }
+:focus-visible { outline: 3px solid var(--oro); outline-offset: 2px; }
+
+/* ---------- Encabezado ---------- */
+.barra { background: var(--campo); border-bottom: 3px solid var(--oro); }
+.barra .navbar-brand { font-size: 1.7rem; font-weight: 700; color: #fff; }
+.barra .navbar-brand span { color: var(--oro); }
+.barra .nav-link { color: rgba(255,255,255,.75); font-weight: 500; padding: .5rem .9rem !important; border-radius: 999px; }
+.barra .nav-link:hover { color: #fff; }
+.barra .nav-link.active { color: var(--campo) !important; background: var(--tiza); }
+
+/* ---------- Inicio: la cancha ---------- */
+.cancha {
+    position: relative; overflow: hidden; color: #fff; border-radius: 22px;
+    padding: 4.5rem 2rem 5rem; text-align: center;
+    background: repeating-linear-gradient(90deg, var(--campo) 0 80px, var(--linea) 80px 160px);
+}
+.cancha .lineas {            /* marco de la cancha y areas de porteria */
+    position: absolute; inset: 18px; border: 2px solid rgba(255,255,255,.5); border-radius: 6px; pointer-events: none;
+}
+.cancha .lineas::before, .cancha .lineas::after {
+    content: ""; position: absolute; top: 50%; width: 11%; height: 58%; transform: translateY(-50%);
+    border: 2px solid rgba(255,255,255,.5);
+}
+.cancha .lineas::before { left: -2px; border-left: 0; }
+.cancha .lineas::after { right: -2px; border-right: 0; }
+.cancha > * { position: relative; }
+.cancha h1 { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 800; line-height: .95; margin-bottom: .75rem; }
+.cancha p { font-size: 1.15rem; color: rgba(255,255,255,.85); max-width: 32rem; margin: 0 auto 1.75rem; }
+.btn-oro { background: var(--oro); color: var(--tinta); font-weight: 600; border: 0; border-radius: 999px; padding: .7rem 1.6rem; }
+.btn-oro:hover { background: #F0C55A; color: var(--tinta); }
+
+/* ---------- Marcador de totales ---------- */
+.marcador { display: grid; grid-template-columns: repeat(5, 1fr); background: var(--tinta); border-radius: 16px; overflow: hidden; margin: -2.5rem auto 0; width: min(92%, 980px); position: relative; }
+.marcador a { color: #fff; text-decoration: none; text-align: center; padding: 1.25rem .5rem; border-left: 1px solid rgba(255,255,255,.08); }
+.marcador a:first-child { border-left: 0; }
+.marcador a:hover { background: rgba(255,255,255,.06); }
+.marcador-cifra { display: block; font-size: 2.8rem; font-weight: 700; line-height: 1; color: var(--oro); }
+.marcador small { color: rgba(255,255,255,.7); }
+@media (max-width: 767px) {
+    .marcador { grid-template-columns: repeat(2, 1fr); margin-top: 1rem; width: 100%; }
+    .marcador a { border-top: 1px solid rgba(255,255,255,.08); }
+    .cancha { padding: 3rem 1.25rem; }
+}
+
+/* ---------- Paneles, formularios y tablas ---------- */
+.card { border: 1px solid var(--borde); border-radius: 16px; box-shadow: none; overflow: hidden; }
+.card-header { background: #fff !important; border-bottom: 1px solid var(--borde); padding: 1rem 1.25rem; }
+.titulo-panel, .card-header.fw-semibold { font-family: "Barlow Condensed", sans-serif; font-size: 1.35rem; font-weight: 700 !important; }
+.form-label { font-weight: 600; font-size: .92rem; color: var(--gris); }
+.form-control, .form-select { border-radius: 10px; border-color: var(--borde); padding: .6rem .8rem; }
+.form-control:focus, .form-select:focus, .form-check-input:focus { border-color: var(--linea); box-shadow: 0 0 0 .2rem rgba(227,178,60,.35); }
+.form-check-input:checked { background-color: var(--linea); border-color: var(--linea); }
+.btn { border-radius: 999px; font-weight: 600; }
+.btn-success { --bs-btn-bg: var(--campo); --bs-btn-border-color: var(--campo); --bs-btn-hover-bg: var(--linea); --bs-btn-hover-border-color: var(--linea); --bs-btn-active-bg: var(--linea); padding-left: 1.4rem; padding-right: 1.4rem; }
+.btn-sm { border-radius: 8px; }
+.table { margin: 0; }
+.table-success { --bs-table-bg: var(--suave); --bs-table-color: var(--campo); }
+.table-success th { font-weight: 600; font-size: .85rem; border-bottom: 0; }
+.table > :not(caption) > * > * { padding: .8rem 1rem; }
+.table-striped > tbody > tr:nth-of-type(odd) > * { --bs-table-bg-type: rgba(0,0,0,.018); }
+.badge.bg-success { background: var(--campo) !important; }
+.badge.bg-dark { background: var(--tinta) !important; font-family: "Barlow Condensed", sans-serif; font-size: .95rem; min-width: 2rem; }
+.alert { border-radius: 12px; border: 0; }
+.lista-checks { border: 1px solid var(--borde); border-radius: 10px; padding: .6rem .8rem; max-height: 190px; overflow-y: auto; background: #fff; }
+
+/* ---------- Detalle del club ---------- */
+.escudo { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--campo); color: var(--oro); font-family: "Barlow Condensed", sans-serif; font-size: 1.8rem; font-weight: 700; flex-shrink: 0; }
+
+.pie { color: var(--gris); font-size: .9rem; border-top: 1px solid var(--borde); }
+
+/* ---------- Ajustes de tabla ---------- */
+.table a.fw-semibold { color: var(--campo); text-decoration: none; }
+.table a.fw-semibold:hover { text-decoration: underline; }
+.badge.bg-info, .badge.bg-warning { background: var(--suave) !important; color: var(--campo) !important; font-size: .9rem; font-weight: 600; min-width: 2rem; }
+td .btn-sm { background: #fff; border: 1px solid var(--borde); color: var(--gris); width: 34px; height: 34px; padding: 0; display: inline-grid; place-items: center; }
+td .btn-sm:hover { border-color: var(--linea); color: var(--campo); background: var(--suave); }
+td .btn-danger:hover { border-color: #C0392B; color: #C0392B; background: #FBEDEB; }
+@media (max-width: 767px) {
+    .cancha .lineas::before, .cancha .lineas::after { display: none; }
+    .marcador a:last-child { grid-column: span 2; }
+}

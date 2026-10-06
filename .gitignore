@@ -1,0 +1,19 @@
+# Contrasenas (nunca subir)
+.env
+
+# Compilados
+target/
+
+# Eclipse / Spring Tool Suite
+.classpath
+.project
+.settings/
+.factorypath
+.springBeans
+.sts4-cache/
+bin/
+
+# IntelliJ / VS Code
+.idea/
+*.iml
+.vscode/

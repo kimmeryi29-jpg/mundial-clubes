@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/plantilla :: head(${club.nombre})}"></head>
+<body>
+<nav th:replace="~{fragments/plantilla :: encabezado('clubes')}"></nav>
+
+<main class="container pb-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+        <div class="d-flex align-items-center gap-3">
+            <div class="escudo" th:text="${#strings.substring(club.nombre, 0, 1)}">M</div>
+            <h2 class="mb-0 display-6 fw-bold" th:text="${club.nombre}">Club</h2>
+        </div>
+        <div class="d-flex gap-2">
+            <a th:href="@{/clubes/editar/{id}(id=${club.id})}" class="btn btn-warning"><i class="bi bi-pencil"></i> Editar</a>
+            <a th:href="@{/clubes}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Volver</a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white fw-semibold">Entrenador</div>
+                <div class="card-body" th:if="${club.entrenador != null}" th:object="${club.entrenador}">
+                    <h5 th:text="*{nombreCompleto}"></h5>
+                    <p class="mb-0 text-muted"><span th:text="*{edad}"></span> años · <span th:text="*{nacionalidad}"></span></p>
+                </div>
+                <div class="card-body text-muted" th:unless="${club.entrenador != null}">Sin entrenador asignado</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white fw-semibold">Asociación</div>
+                <div class="card-body" th:if="${club.asociacion != null}" th:object="${club.asociacion}">
+                    <h5 th:text="*{nombre}"></h5>
+                    <p class="mb-0 text-muted"><span th:text="*{pais}"></span> · Presidente: <span th:text="*{presidente}"></span></p>
+                </div>
+                <div class="card-body text-muted" th:unless="${club.asociacion != null}">Sin asociación asignada</div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white fw-semibold">Plantel de jugadores</div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped mb-0 align-middle">
+                        <thead class="table-info"><tr><th>#</th><th>Nombre</th><th>Posición</th></tr></thead>
+                        <tbody>
+                        <tr th:if="${#lists.isEmpty(club.jugadores)}"><td colspan="3" class="text-muted text-center py-3">Sin jugadores</td></tr>
+                        <tr th:each="j : ${club.jugadores}">
+                            <td><span class="badge bg-dark" th:text="${j.numero}"></span></td>
+                            <td th:text="${j.nombreCompleto}"></td>
+                            <td th:text="${j.posicion}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white fw-semibold">Competiciones</div>
+                <ul class="list-group list-group-flush">
+                    <li th:if="${#lists.isEmpty(club.competiciones)}" class="list-group-item text-muted">No participa en competiciones</li>
+                    <li th:each="c : ${club.competiciones}" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-trophy text-warning"></i> <span th:text="${c.nombre}"></span></span>
+                        <small class="text-muted"
+                               th:text="${#temporals.format(c.fechaInicio, 'dd/MM/yyyy')} + ' – ' + ${#temporals.format(c.fechaFin, 'dd/MM/yyyy')}"></small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/plantilla :: pie}"></footer>
+<th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+</html>
